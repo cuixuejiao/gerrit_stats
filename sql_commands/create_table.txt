@@ -1,0 +1,59 @@
+$ mysql -u root -p
+mysql> SHOW DATABASES;
+mysql> CREATE DATABASE testdb
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+mysql> CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'test623';
+mysql> USE testdb;
+mysql> GRANT ALL ON testdb.* TO 'testuser'@'localhost';
+mysql> quit;
+
+$ mysql -h localhost -u testuser -p
+Enter password:test623
+
+mysql> CREATE TABLE `accounts` (
+        `full_name` varchar(255) DEFAULT NULL,
+        `preferred_email` varchar(255) DEFAULT NULL,
+        `account_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        PRIMARY KEY (`account_id`),
+        KEY `accounts_byPreferredEmail` (`preferred_email`),
+        KEY `accounts_byFullName` (`full_name`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+mysql> CREATE TABLE `changes` (
+        `change_key` varchar(60) NOT NULL DEFAULT '',
+        `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `last_updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `owner_account_id` int(11) NOT NULL DEFAULT '0',
+        `dest_project_name` varchar(255) NOT NULL DEFAULT '',
+        `dest_branch_name` varchar(255) NOT NULL DEFAULT '',
+        `status` char(1) NOT NULL DEFAULT '',
+        `current_patch_set_id` int(11) NOT NULL DEFAULT '0',
+        `change_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        PRIMARY KEY (`change_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+mysql> CREATE TABLE `patch_sets` (
+        `revision` varchar(40) DEFAULT NULL,
+        `uploader_account_id` int(11) NOT NULL DEFAULT '0',
+        `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `size_insertions` int(11) NOT NULL DEFAULT '0',
+        `size_deletions` int(11) NOT NULL DEFAULT '0',
+        `change_id` int(11) NOT NULL DEFAULT '0',
+        `patch_set_id` int(11) NOT NULL DEFAULT '0',
+        PRIMARY KEY (`change_id`,`patch_set_id`),
+        KEY `patch_sets_byRevision` (`revision`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+mysql> CREATE TABLE `patch_set_approvals` (
+        `value` smallint(6) NOT NULL DEFAULT '0',
+        `granted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `change_id` int(11) NOT NULL DEFAULT '0',
+        `patch_set_id` int(11) NOT NULL DEFAULT '0',
+        `account_id` int(11) NOT NULL DEFAULT '0',
+        `category_id` varchar(255) NOT NULL DEFAULT '',
+        PRIMARY KEY (`change_id`,`patch_set_id`,`account_id`,`category_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    
+ 
+mysql> SHOW CREATE TABLE tableName
