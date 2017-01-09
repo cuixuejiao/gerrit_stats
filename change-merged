@@ -88,7 +88,7 @@ def main():
         change.new_change()
         
         # Close connection to the database
-        connection.close()
+        conn.close()
     
 if __name__ == '__main__':
     main()
