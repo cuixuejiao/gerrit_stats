@@ -25,7 +25,7 @@ def print_args(args):
 def query_change(change_id):
     """ Get gerrit change info as a json list. """
     output_file = 'result.json'
-    query_cmd = 'ssh -p 29418 cuixuejiao@101.201.39.57 gerrit query \
+    query_cmd = 'ssh -p 29418 name@xxx gerrit query \
         --format=JSON --current-patch-set ' + change_id + ' --files > ' + \
         output_file
     try:
