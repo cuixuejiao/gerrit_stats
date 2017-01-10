@@ -38,7 +38,7 @@ def query_change(change_id):
             # read the output file
             with open(output_file) as f_obj:
                 json_list = f_obj.readlines()
-        except FileNotFuondError:
+        except FileNotFoundError:
             print("Sorry, the file " + output_file + " does not exist.")
         else:
             # parse the json string to a dict tpye 
