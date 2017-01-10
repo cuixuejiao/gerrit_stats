@@ -1,16 +1,15 @@
 $ mysql -u root -p
 mysql> SHOW DATABASES;
-mysql> CREATE DATABASE testdb
+mysql> CREATE DATABASE reportdb
   DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
-mysql> CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'test623';
-mysql> USE testdb;
-mysql> GRANT ALL ON testdb.* TO 'testuser'@'localhost';
+mysql> CREATE USER 'report'@'localhost' IDENTIFIED BY 'Ali$%Report3$%';
+mysql> USE reportdb;
+mysql> GRANT ALL ON reportdb.* TO 'report'@'localhost';
 mysql> quit;
 
-$ mysql -h localhost -u testuser -p
-Enter password:test623
-
+$ mysql -u report -p
+mysql> USE reportdb;
 mysql> CREATE TABLE `accounts` (
         `full_name` varchar(255) DEFAULT NULL,
         `preferred_email` varchar(255) DEFAULT NULL,

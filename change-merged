@@ -85,7 +85,7 @@ def main():
         
         # Insert new change, patchset and patchset approvals info.
         change = Change(conn)
-        change.new_change()
+        change.check_change()
         
         # Close connection to the database
         conn.close()
