@@ -1,15 +1,16 @@
 $ mysql -u root -p
 mysql> SHOW DATABASES;
-mysql> CREATE DATABASE reportdb
+mysql> CREATE DATABASE testdb
   DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
-mysql> CREATE USER 'report'@'localhost' IDENTIFIED BY 'Ali$%Report3$%';
-mysql> USE reportdb;
-mysql> GRANT ALL ON reportdb.* TO 'report'@'localhost';
+mysql> CREATE USER 'testuser'@'localhost' IDENTIFIED BY '1212123';
+mysql> USE testdb;
+mysql> GRANT ALL ON testdb.* TO 'testuser'@'localhost';
+mysql> FLUSH PRIVILEGES;
 mysql> quit;
 
-$ mysql -u report -p
-mysql> USE reportdb;
+$ mysql -u testuser -p
+mysql> USE testdb;
 mysql> CREATE TABLE `accounts` (
         `full_name` varchar(255) DEFAULT NULL,
         `preferred_email` varchar(255) DEFAULT NULL,
@@ -22,7 +23,6 @@ mysql> CREATE TABLE `accounts` (
 mysql> CREATE TABLE `changes` (
         `change_key` varchar(60) NOT NULL DEFAULT '',
         `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        `last_updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
         `owner_account_id` int(11) NOT NULL DEFAULT '0',
         `dest_project_name` varchar(255) NOT NULL DEFAULT '',
         `dest_branch_name` varchar(255) NOT NULL DEFAULT '',
@@ -35,7 +35,6 @@ mysql> CREATE TABLE `changes` (
 mysql> CREATE TABLE `patch_sets` (
         `revision` varchar(40) DEFAULT NULL,
         `uploader_account_id` int(11) NOT NULL DEFAULT '0',
-        `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         `size_insertions` int(11) NOT NULL DEFAULT '0',
         `size_deletions` int(11) NOT NULL DEFAULT '0',
         `change_id` int(11) NOT NULL DEFAULT '0',
